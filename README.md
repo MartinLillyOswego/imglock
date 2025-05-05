@@ -1,13 +1,17 @@
 # imglock
 
-**imglock** is a Python tool that combines encryption and steganography to securely hide messages inside image files. It uses Fernet encryption (AES-128 with HMAC) to encrypt data and stores it in the least significant bits of image pixels, allowing safe, covert transmission of sensitive information.
+**imglock** is a secure, image-based password manager. It encrypts your passwords using Fernet symmetric encryption and hides them inside images using steganography. Your credentials are protected and disguised — visible only to those with the right key image.
 
-## 🔐 Features
+## 🔐 Why imglock?
 
-- Generate secure Fernet keys and embed them in images.
-- Encrypt messages and hide them in image files.
-- Decrypt hidden messages using a key extracted from an image.
-- Simple command-line interface.
+Unlike traditional password managers that store sensitive data in vault files, **imglock** hides encrypted passwords inside images. This reduces the risk of detection and makes your password storage both secure and covert.
+
+## ✨ Features
+
+- Secure AES-128 encryption with HMAC authentication (via Fernet).
+- Passwords are hidden inside image pixels using LSB steganography.
+- Easily store and retrieve credentials with two images: one as the key, one as the password container.
+- Lightweight, offline, and open source.
 
 ## 🛠 Requirements
 
@@ -18,25 +22,27 @@
 Install dependencies:
 pip install cryptography pillow
 
-
 ## 🚀 Usage
 
-### Create a Key
+### Step 1: Create a Key Image
+This image will store your encryption key:
 python imglock.py createkey --keyfile key_image.png
 
-### Encrypt and Hide a Message
-python imglock.py encrypt --keyfile key_image.png --password "your_secret_message" --passfile target_image.png
+### Step 2: Encrypt and Hide a Password
+This embeds an encrypted password in a cover image:
+python imglock.py encrypt --keyfile key_image.png --password "My$ecretP@ssw0rd" --passfile password_image.png
 
-### Extract and Decrypt a Message
-python imglock.py decrypt --keyfile key_image.png --passfile target_image.png
+### Step 3: Extract and Decrypt the Password
+This recovers the original password using the key image:
+python imglock.py decrypt --keyfile key_image.png --passfile password_image.pngc
 
-> ⚠️ Both the key and the message are stored inside images. Make sure to back them up and protect access.
+> 🛡️ Both the key and password image are needed to access the stored credentials. Keep them secure!
 
 ## 📁 Project Structure
 
-- `imglock.py` – Main script for encryption, steganography, and CLI handling.
-- `README.md` – Project overview and instructions.
-- `LICENSE` – MIT License terms.
+- `imglock.py` – Core CLI and logic for encryption, embedding, and recovery.
+- `README.md` – Project documentation.
+- `LICENSE` – MIT License file.
 
 ## 📄 License
 
