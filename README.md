@@ -1,7 +1,4 @@
 # imglock
-imglock is a Python tool that uses Fernet encryption and steganography to hide encrypted messages inside image files. It securely embeds data in image pixels and allows for reliable extraction and decryption using a hidden key.
-
-# imglock
 
 **imglock** is a Python tool that combines encryption and steganography to securely hide messages inside image files. It uses Fernet encryption (AES-128 with HMAC) to encrypt data and stores it in the least significant bits of image pixels, allowing safe, covert transmission of sensitive information.
 
