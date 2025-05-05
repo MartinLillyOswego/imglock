@@ -36,7 +36,7 @@ python imglock.py encrypt --keyfile key_image.png --password "My$ecretP@ssw0rd" 
 This recovers the original password using the key image:
 python imglock.py decrypt --keyfile key_image.png --passfile password_image.pngc
 
-> 🛡️ Both the key and password image are needed to access the stored credentials. Keep them secure!
+> 🛡️ Both the key and password image are needed to access the stored credentials. **Please store the key image securely!** It’s recommended to store it on a separate, secure device such as a thumb drive, to prevent unauthorized access to your passwords.
 
 ## 📁 Project Structure
 
