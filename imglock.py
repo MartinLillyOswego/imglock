@@ -111,7 +111,25 @@ if __name__ == "__main__":
 
         if args.keyfile:
             encode_image(args.keyfile, key)
-            print(f"Key: ("+ str(key) +") encoded into image {args.keyfile}")
+            print(f"Key: ({str(key)}) encoded into image {args.keyfile}")
 
         else:
             print("keyfile argument is required for key creation.")
+
+
+
+
+
+#Test scripts
+#
+#Make sure to delete any existing key.png and pass.png files before running the tests.
+#copy the test images from the "test_images" folder to the current directory.
+#
+#createkey:
+#python imglock.py createkey --keyfile key.png
+#
+#encrypt:
+#python imglock.py encrypt --keyfile key.png --passfile pass.png --password "password4456"
+#
+#decrypt:
+#python imglock.py decrypt --keyfile key.png --passfile pass.png
