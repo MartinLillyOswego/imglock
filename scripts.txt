@@ -1,0 +1,33 @@
+Test scripts
+
+Make sure to delete any existing key.png and pass.png files before running the tests.
+copy the test images from the "test_images" folder to the current directory.
+
+#####Normal test#####
+python imglock.py createkey --keyfile key.png
+
+python imglock.py encrypt --keyfile key.png --passfile pass.png --password "password4456"
+
+python imglock.py decrypt --keyfile key.png --passfile pass.png
+
+
+#####Wrong kry decrypt#####
+python imglock.py createkey --keyfile wrong_key.png
+
+python imglock.py createkey --keyfile key.png
+
+python imglock.py encrypt --keyfile key.png --passfile pass.png --password "password4456"
+
+python imglock.py decrypt --keyfile key.png --passfile pass.png
+
+
+#####PassFile contains no password#####
+python imglock.py createkey --keyfile key.png
+
+python imglock.py decrypt --keyfile key.png --passfile pass.png
+
+
+#####imageKey contains no key#####
+python imglock.py encrypt --keyfile key.png --passfile pass.png --password "password4456"
+
+python imglock.py decrypt --keyfile key.png --passfile pass.png

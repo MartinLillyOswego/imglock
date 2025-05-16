@@ -20,18 +20,25 @@ def encode_image(image_path, message_bytes):
     pixels = img.load()
     width, height = img.size
 
+    # Step 1: Encode the length of the message (in bytes) as 32 bits
+    message_length = len(message_bytes)
+    length_bits = f'{message_length:032b}'
+
+    # Step 2: Encode the message as bits
     message_bits = message_to_bits(message_bytes)
-    message_bits += '1111111111111110'  # Delimiter
+
+    # Combine length and message
+    full_bits = length_bits + message_bits
 
     bit_index = 0
     for y in range(height):
         for x in range(width):
-            if bit_index >= len(message_bits):
+            if bit_index >= len(full_bits):
                 img.save(image_path)
                 print(f"Message encoded and saved to {image_path}")
                 return
             r, g, b = pixels[x, y]
-            r = (r & ~1) | int(message_bits[bit_index])  # modify LSB of red
+            r = (r & ~1) | int(full_bits[bit_index])  # modify LSB of red
             bit_index += 1
             pixels[x, y] = (r, g, b)
 
@@ -48,12 +55,16 @@ def extract_hidden_bytes(image_path):
         for x in range(width):
             r, g, b = pixels[x, y]
             bits += str(r & 1)
-            # Check for end-of-message marker every 8 bits
-            if bits.endswith('1111111111111110'):
-                bits = bits[:-16]  # remove the delimiter
-                return bytes(int(bits[i:i+8], 2) for i in range(0, len(bits), 8))
 
-    raise ValueError("No hidden message found or missing end-of-message delimiter.")
+            if len(bits) >= 32:
+                message_length = int(bits[:32], 2)  # First 32 bits = length
+                total_bits = 32 + message_length * 8
+
+                if len(bits) >= total_bits:
+                    message_bits = bits[32:total_bits]
+                    return bits_to_bytes(message_bits)
+
+    raise ValueError("No hidden message found or image was truncated.")
 
 if __name__ == "__main__":
     import sys
@@ -120,16 +131,3 @@ if __name__ == "__main__":
 
 
 
-#Test scripts
-#
-#Make sure to delete any existing key.png and pass.png files before running the tests.
-#copy the test images from the "test_images" folder to the current directory.
-#
-#createkey:
-#python imglock.py createkey --keyfile key.png
-#
-#encrypt:
-#python imglock.py encrypt --keyfile key.png --passfile pass.png --password "password4456"
-#
-#decrypt:
-#python imglock.py decrypt --keyfile key.png --passfile pass.png
